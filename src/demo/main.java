@@ -5,20 +5,21 @@ import java.util.*;
 import java.io.*;
 
 public class main {
-	
+	static double currentId = -1;
 	public static void main(String args[]) throws IOException{
 		
 		main A = new main();
-		Vector<Student> studentList;
-		A.InputData(studentList);
+		Vector<Student> studentList = new Vector<Student>();
+		double weighted[] = {0.1,0.1,0.1,0.3,0.4};
+		A.InputData(studentList, weighted);
 		
 		System.out.print("輸入ID或 Q (結束使用)?:\n");
 
-		Scanner scanner = new Scanner(System.in); 		
-		int position = A.Input(data, name, scanner); 		
+		Scanner scanner = new Scanner(System.in);
+		int position = A.Input(studentList, scanner); 		
 		while (position == -1) { 			
 			System.out.print("輸入ID或 Q (結束使用)?:\n"); 			
-			position = A.Input(data, name,scanner); 
+			position = A.Input(studentList, scanner);
 			// Not exist 		} 		
 			if (position == -2) return; //Q
 		}
@@ -27,27 +28,20 @@ public class main {
 		while(Continue.contentEquals("YES")) {
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
 			String num1 = scanner.next();
-			
+
 			if(num1.contentEquals("G")) {
-				System.out.println(name.get(position)+ "成績如下：" + "\n");
-				System.out.println("Lab1 : "+ data.get(position).get(1) +  "\n");
-				System.out.println("Lab2 : "+ data.get(position).get(2) +  "\n");
-				System.out.println("Lab3 : "+ data.get(position).get(3) +  "\n");
-				System.out.println("Midterm : "+ data.get(position).get(4) +  "\n");
-				System.out.println("Final Exam : "+ data.get(position).get(5) +  "\n");
+				studentList.get(position).showGrade();
 			}else if(num1.contentEquals("R")) {
-				
+				Collections.sort(studentList);
+				position = checkID(currentId, studentList);
+				System.out.println(studentList.get(position).name + "的排名為 : " + position);
 			}else if(num1.contentEquals("A")) {
-				System.out.println(name.get(position)+ "平均成績為" + data.get(position).get(6));
+				studentList.get(position).showValue();
 			}else if(num1.contentEquals("W")) {
-			
+				weighted = A.changeWeight(weighted, studentList, position, scanner);
 			}else if(num1.contentEquals("E")) {
-				System.out.print("輸入​ID​或​ Q (​結束使用​)?"); 				
-				position = A.Input(data, name,scanner); 				
-				while (position == -1) 
-					position = A.Input(data, name,scanner); // Not exist 				
-				if (position == -2) { 					
-					return; // Q
+				if(A.Exit(A, studentList, scanner, position) == 1) {
+					return;
 				}
 			}else {
 				System.out.print("Wrong input!\n");
@@ -55,7 +49,28 @@ public class main {
 		}
 	}
 	
-	public int Input(Vector<Vector<Double>>data, Vector<String>name, Scanner scanner) {
+	public double[] changeWeight(double weighted[], Vector<Student> studentList, int position, Scanner scanner) {
+		System.out.println("舊配分：lab1" + weighted[0]*100 + "%" + "lab2 " + weighted[1]*100 + "%" +
+							"lab3 " + weighted[2]*100 + "%" + "midterm " + weighted[3]*100 + "%" + 
+							"Final Exam " + weighted[4]*100 + "%" + "\n" + "請輸入配分:");
+		
+		
+		return weighted;
+	}
+	
+	public int Exit(main A, Vector<Student> studentList, Scanner scanner, int position) {
+		System.out.print("輸入​ID​或​ Q (​結束使用​)?"); 
+		int exitFlag = 0;
+		position = A.Input(studentList, scanner); 				
+		while (position == -1) 
+			position = A.Input(studentList, scanner); // Not exist 				
+		if (position == -2) { 
+			exitFlag = 1;
+		}
+		return exitFlag;
+	}
+	
+	public int Input(Vector<Student> studentList, Scanner scanner) {
 		// Q or input ID
 		String num1 = scanner.next();
 		double num;
@@ -64,11 +79,12 @@ public class main {
 			return -2;
 		}else {
 			num = Double.parseDouble(num1);
+			currentId = num;
 		}
 		
-		int position = checkID(num,data);
+		int position = checkID(num,studentList);
 		if(position != -1) {
-			System.out.printf("Welcome, %s\n", name.get(position));
+			System.out.printf("Welcome, %s\n", studentList.get(position).name);
 		}
 		else {
 			System.out.print("無此人員!\n");
@@ -76,11 +92,10 @@ public class main {
 		return position;
 	}
 	
-	public void InputData(Vector<Student> studentList) throws IOException {
+	public void InputData(Vector<Student> studentList, double weighted[]) throws IOException {
 		String cwd = System.getProperty("user.dir");
 		FileInputStream fr = new FileInputStream(cwd+"/input.txt");
 		Scanner inf = new Scanner(new InputStreamReader(fr,"UTF-8"));
-		double weighted[] = {0.1,0.1,0.1,0.3,0.4};
 		while (inf.hasNext()) {
 			int id = inf.nextInt();
 			String name = inf.next();
@@ -96,11 +111,6 @@ public class main {
 		fr.close();
 	}
 	
-	public double Weighted(Vector<Double> v2, double a, double b, double c, double d, double e) {
-		//0.1, 0.1, 0.1, 0.3, 0.4 ​
-		double value = v2.get(1)*a+ v2.get(2)*b + v2.get(3)*c + v2.get(4)*d + v2.get(5)*e;
-		return value;
-	}
 	
 	/*
 	 * check whether the id is in the data or not
@@ -112,10 +122,10 @@ public class main {
 	 * Time estimate: O(n)
 	 */
 	
-	public int checkID(double inputID, Vector<Vector<Double>> v1) {
+	public static int checkID(double inputID, Vector<Student> studentList) {
 		int number = -1;
-		for(int i=0; i<v1.size(); i++) {
-			if(inputID == v1.get(i).get(0)) {
+		for(int i=0; i<studentList.size(); i++) {
+			if(inputID == studentList.get(i).ID) {
 				number = i;
 			}
 		}
@@ -127,11 +137,12 @@ public class main {
 	}
 }
 
-class Student {
+class Student implements Comparable<Student> {
 	public int ID;
 	public String name;
 	public int lab1, lab2, lab3, mid, final_exam;
 	public double value;
+	
 	
 	public Student(int ID_, String name_, int lab1_, int lab2_, int lab3_, int mid_, int final_exam_) {
 		ID = ID_;
@@ -157,5 +168,12 @@ class Student {
 	public void showValue() {
 		System.out.println(name + "的平均成績為：" + value + "分" + "\n");
 	}
+	
+	@Override
+    public int compareTo(Student other) {
+		if(value > other.value) {return 1;}
+		else if(value < other.value) {return -1;}
+		else {return 0;}
+    }
 	
 }
