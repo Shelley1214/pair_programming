@@ -24,8 +24,8 @@ public class main {
 			if (position == -2) return; //Q
 		}
 		
-		String Continue = "YES";
-		while(Continue.contentEquals("YES")) {
+
+		while(true) {
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
 			String num1 = scanner.next();
 
@@ -39,6 +39,7 @@ public class main {
 				studentList.get(position).showValue();
 			}else if(num1.contentEquals("W")) {
 				weighted = A.changeWeight(weighted, studentList, position, scanner);
+				
 			}else if(num1.contentEquals("E")) {
 				if(A.Exit(A, studentList, scanner, position) == 1) {
 					return;
@@ -50,11 +51,33 @@ public class main {
 	}
 	
 	public double[] changeWeight(double weighted[], Vector<Student> studentList, int position, Scanner scanner) {
-		System.out.println("舊配分：lab1" + weighted[0]*100 + "%" + "lab2 " + weighted[1]*100 + "%" +
-							"lab3 " + weighted[2]*100 + "%" + "midterm " + weighted[3]*100 + "%" + 
+		System.out.println("舊配分：lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
+							"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
 							"Final Exam " + weighted[4]*100 + "%" + "\n" + "請輸入配分:");
+	
+		while(true) {
+			for(int i=0; i<5; i++) {
+				String num1 = scanner.next();
+				if(num1.contentEquals("lab1")) weighted[0] = scanner.nextDouble()/100;
+				if(num1.contentEquals("lab2")) weighted[1] = scanner.nextDouble()/100;
+				if(num1.contentEquals("lab3")) weighted[2] = scanner.nextDouble()/100;
+				if(num1.contentEquals("mid-term")) weighted[3] = scanner.nextDouble()/100;
+				if(num1.contentEquals("final")) {
+					num1 = scanner.next();
+					if(num1.contentEquals("exam")) weighted[4] = scanner.nextDouble()/100;
+				}
+			}
+			System.out.println("請確認新配分: lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
+				"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
+				"Final Exam " + weighted[4]*100 + "% 以上正確嗎? Y (Yes) ​或​ N (No)");
+			String check = scanner.next();
+			if(check.contentEquals("Y")) break;
+		}
 		
-		
+		for(int i=0; i<studentList.size(); i++) {
+			studentList.get(i).calValue(weighted);
+		}
+
 		return weighted;
 	}
 	
@@ -87,7 +110,7 @@ public class main {
 			System.out.printf("Welcome, %s\n", studentList.get(position).name);
 		}
 		else {
-			System.out.print("無此人員!\n");
+			System.out.print("無此人員!請重新輸入\n");
 		}
 		return position;
 	}
@@ -154,12 +177,12 @@ class Student implements Comparable<Student> {
 		final_exam = final_exam_;
 	}
 	public void showGrade() {
-		System.out.println(name + "成績如下：" + "\n");
-		System.out.println("Lab1 : "+ lab1 +  "\n");
-		System.out.println("Lab2 : "+ lab2+  "\n");
-		System.out.println("Lab3 : "+ lab3 +  "\n");
-		System.out.println("Midterm : "+ mid +  "\n");
-		System.out.println("Final Exam : "+ final_exam +  "\n");
+		System.out.println(name + "成績如下：" );
+		System.out.println("Lab1 : "+ lab1 );
+		System.out.println("Lab2 : "+ lab2);
+		System.out.println("Lab3 : "+ lab3);
+		System.out.println("Midterm : "+ mid );
+		System.out.println("Final Exam : "+ final_exam );
 	}
 	public void calValue(double weight[]) {
 		value = lab1*weight[0] + lab2*weight[1] + lab3*weight[2] +
