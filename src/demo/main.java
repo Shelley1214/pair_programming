@@ -67,10 +67,15 @@ public class main {
 					if(num1.contentEquals("exam")) weighted[4] = scanner.nextDouble()/100;
 				}
 			}
+			
 			System.out.println("請確認新配分: lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
 				"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
 				"Final Exam " + weighted[4]*100 + "% 以上正確嗎? Y (Yes) ​或​ N (No)");
 			String check = scanner.next();
+			while(!check.contentEquals("Y") && !check.contentEquals("N")) {
+				System.out.printf("wrong input!請重新輸入!\n Y (Yes) ​或​ N (No)\n");
+				check = scanner.next();
+			}
 			if(check.contentEquals("Y")) break;
 		}
 		
