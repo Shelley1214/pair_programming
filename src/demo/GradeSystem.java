@@ -171,23 +171,23 @@ public class GradeSystem {
 	 * Time estimate: O(checkID()) -> O(n)
 	 */
 	public int Input(Vector<Student> studentList, Scanner scanner) {
-		// Q or input ID
 		String num1 = scanner.next();
-		double num;
+		double num =0;
+		int position;
 		if(num1.contentEquals("Q")) {
 			System.out.print("結束了\n");
 			return -2;
 		}else {
-			num = Double.parseDouble(num1);
-			currentId = num;
-		}
-		
-		int position = checkID(num,studentList);
-		if(position != -1) {
-			System.out.printf("Welcome, %s\n", studentList.get(position).name);
-		}
-		else {
-			System.out.print("無此人員!請重新輸入\n");
+			try {
+				num = Double.parseDouble(num1);
+				currentId = num;
+				position = checkID(num,studentList);
+				if(position != -1) System.out.printf("Welcome, %s\n", studentList.get(position).name);
+				else System.out.print("無此人員!請重新輸入\n");
+			}catch(Exception e) {
+				System.out.println("非合法輸入");
+				position = -1;
+			}
 		}
 		return position;
 	}
