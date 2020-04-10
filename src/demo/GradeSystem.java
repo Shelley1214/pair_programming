@@ -36,7 +36,7 @@ public class GradeSystem {
 	 * Example: A.inputCommand(scanner,studentList, [0.1, 0.1, 0.1, 0.3, 0.4], 1, A)
 	 * Time Estimate: O(1)
 	 */
-	private void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, main A) {
+	private void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, GradeSystem A) {
 		while(true) {
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
 			String num1 = scanner.next();
@@ -146,7 +146,7 @@ public class GradeSystem {
 	 * Example: input Q, return 1, and then exist
 	 * Time estimate: O(1)
 	 */
-	public int Exit(main A, Vector<Student> studentList, Scanner scanner, int position) {
+	public int Exit(GradeSystem A, Vector<Student> studentList, Scanner scanner, int position) {
 		System.out.print("輸入​ID​或​ Q (​結束使用​)?");
 		int exitFlag = 0;
 		position = A.Input(studentList, scanner); 				
