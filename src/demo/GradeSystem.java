@@ -3,14 +3,15 @@ package demo;
 import java.util.Scanner;
 import java.util.*;
 import java.io.*;
+import java.text.DecimalFormat;  
 
 public class GradeSystem {
 	static double currentId = -1;
+	static double weighted[] = {0.1,0.1,0.1,0.3,0.4};
 	private static Scanner scanner = new Scanner(System.in);
 	public static void main(String args[]) throws IOException{
 		GradeSystem A = new GradeSystem();
 		Vector<Student> studentList = new Vector<Student>();
-		double weighted[] = {0.1,0.1,0.1,0.3,0.4};
 		A.InputData(studentList, weighted, "/input.txt");
 		System.out.print("輸入ID或 Q (結束使用)?:\n");
 		int position = A.Input(studentList); 		
@@ -38,14 +39,15 @@ public class GradeSystem {
 	 */
 	private void inputCommand(Vector<Student> studentList, double weighted[], int position, GradeSystem A) {
 		while(true) {
+			String out = "";
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
 			String num1 = scanner.next();
 			if(num1.contentEquals("G")) {
-				studentList.get(position).showGrade();
+				out = showGrade(studentList, position);
 			}else if(num1.contentEquals("R")) {
 				position = showRank(studentList, currentId);
 			}else if(num1.contentEquals("A")) {
-				studentList.get(position).showValue();
+				out = showValue(studentList, position);
 			}else if(num1.contentEquals("W")) {
 				weighted = A.changeWeight(weighted, studentList);
 			}else if(num1.contentEquals("E")) {
@@ -57,22 +59,62 @@ public class GradeSystem {
 			}
 		}
 	}
+	
+	/**
+	 * Print this student's grade.
+	 * @param studentList
+	 * @param position
+	 * @return None
+	 * Example: studentObject.showGrade()
+	 * Time Estimate: O(1)
+	 */
+	public String showGrade(Vector<Student> studentList, int position) {
+		String out = "";
+		out = studentList.get(position).showGrade();
+		return out;
+	}
+	/**
+	 * Print this student's average score.
+	 * @param None
+	 * @return String out to display the average score.
+	 * Example: studentObject.showValue(studentList, 2) return 87.50
+	 * Time Estimate: O(1)
+	 */
+	public String showValue(Vector<Student> studentList, int position) {
+		String out;
+		out = studentList.get(position).showValue();
+		return out;
+	}
 	/**
 	 * Sort the studentList by their average score and then return and print the current rank or the user.
 	 * @param studentList:A vector store all students in form of studentObject.
-	 * ex:{[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
+	 * Example:{[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	   [ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
 	 * @param currentID: The current user(student) ID.
 	 * @return position: The index of current student in the studentList.
 	 * Example:showRank(studentList, 962001051)
-	 * Time Estimate: O(lgn)
+	 * Time Estimate: O(log n)
 	 */
-	public int showRank(Vector<Student> studentList, double currentID) {
+	public int showRank(Vector<Student> studentList, double currentId) {
 		Collections.sort(studentList);
 		int position = checkID(currentId, studentList);
 		int rank = position + 1;
 		System.out.println(studentList.get(position).name + "的排名為 : " + rank);
 		return position;
+	}
+	/**
+	 * Calculate this student's average score according to his score for each subjects and weights and store to 'value'.
+	 * @param weight: store all weight for each subject.
+	 * @param studentList
+	 * @param i student index in studentList
+	 * @return value: Average score 
+	 * Example: studentObject.calValue([0.1, 0.1, 0.1, 0.3, 0.4]) return 85.60
+	 * Time estimate: O(1)
+	 */
+	public String calValue(Vector<Student> studentList, double weighted[], int i) {
+		String out = "";
+		out = studentList.get(i).calValue(weighted);
+		return out;
 	}
 	/**
 	 * Scan and parsing weights for each subject entered by users.
@@ -144,7 +186,7 @@ public class GradeSystem {
 			if(check.contentEquals("Y")) break;
 		}
 		for(int i=0; i<studentList.size(); i++) {
-			studentList.get(i).calValue(weighted);
+			String value = calValue(studentList, weighted, i);
 		}
 		return weighted;
 	}
@@ -289,38 +331,44 @@ class Student implements Comparable<Student> {
 	/**
 	 * Print this student's grade.
 	 * @param: None
-	 * @return: None
+	 * @return: string out combine all score to one sentence.
 	 * Example: studentObject.showGrade()
 	 * Time estimate: O(1)
 	 */
-	public void showGrade() {
+	public String showGrade() {
 		System.out.println(name + "成績如下：" );
 		System.out.println("Lab1 : "+ lab1 );
 		System.out.println("Lab2 : "+ lab2);
 		System.out.println("Lab3 : "+ lab3);
 		System.out.println("Midterm : "+ mid );
 		System.out.println("Final Exam : "+ final_exam );
+		String out = Integer.toString(lab1) + " " +Integer.toString(lab2) + " " + Integer.toString(lab3) + " " + Integer.toString(mid) + " " + Integer.toString(final_exam);
+		return out;
 	}
 	/**
 	 * Calculate this student's average score according to his score for each subjects and weights and store to 'value'.
 	 * @param weight: store all weight for each subject.
-	 * @return None
-	 * Example: studentObject.calValue([0.1, 0.1, 0.1, 0.3, 0.4])
+	 * @return value: string of Average score 
+	 * Example: studentObject.calValue([0.1, 0.1, 0.1, 0.3, 0.4]) return 85.60
 	 * Time estimate: O(1)
 	 */
-	public void calValue(double weight[]) {
+	public String calValue(double weight[]) {
+		DecimalFormat df = new DecimalFormat("######0.00");
 		value = lab1*weight[0] + lab2*weight[1] + lab3*weight[2] +
 				mid*weight[3] + final_exam*weight[4];
+		return df.format(value);
 	}
 	/**
 	 * Print this student's average score.
 	 * @param None
-	 * @return None
-	 * Example: studentObject.showValue()
+	 * @return String out to display the average score.
+	 * Example: studentObject.showValue(studentList, 2) return 87.50
 	 * Time Estimate: O(1)
 	 */
-	public void showValue() {
-		System.out.println(name + "的平均成績為：" + value + "分" + "\n");
+	public String showValue() {
+		DecimalFormat df = new DecimalFormat("######0.00");  
+		System.out.println(name + "的平均成績為：" + df.format(value) + "分" + "\n");
+		return df.format(value);
 	}
 	/**
 	 * Custom rule for JAVA Collection Sort.

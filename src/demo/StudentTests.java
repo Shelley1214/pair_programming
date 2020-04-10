@@ -19,39 +19,115 @@ class StudentTests {
 	@BeforeEach
 	void setUp() throws Exception {
 		GradeSystem TestGradeSys = new GradeSystem();
+//		Vector <Student> studentList = new Vector<Student>();
 		TestGradeSys.InputData(studentList, weighted, filename);
+		weighted[0] = 0.1;
+		weighted[1] = 0.1;
+		weighted[2] = 0.1;
+		weighted[3] = 0.3;
+		weighted[4] = 0.4;
 		System.out.println("===========Before test ============");
 	}
     
 	@AfterEach
 	void tearDown() throws Exception {
+		studentList.clear();
 		System.out.println("========== After test ============");
 	}
 
 	@Test
 	public void checkIdTestPass() {
-		System.out.println("checkID_1");
 		GradeSystem TestGradeSys = new GradeSystem();
-		assertEquals(0, TestGradeSys.checkID(955002056, studentList));
+		assertEquals(1, TestGradeSys.checkID(955002056, studentList));
+		System.out.println("checkID_1");
 	}
 	
 	@Test
 	public void checkIdTestFail() {
-		System.out.println("checkID_2");
 		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(-1, TestGradeSys.checkID(0, studentList));
+		System.out.println("checkID_2");
+	}
+	
+//	@Test
+//	public void changeWeightTestPass() throws Exception {
+//		System.out.println("changeWeight_1");
+//		GradeSystem TestGradeSys = new GradeSystem();
+//		double test_weighted[] = {0.2,0.2,0.2,0.2,0.2};
+//		String testSentence = "​lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20";
+//		if(!weighted.equals(test_weighted)) throw new Exception("result wrong!");
+//	}
+	
+	@Test
+	public void showRankTestPass() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		assertEquals(1, TestGradeSys.showRank(studentList, 962001044.0));
+		System.out.println("showRank_1");
 	}
 	
 	@Test
-	public void changeWeightTestPass() throws Exception {
-		System.out.println("changeWeight_1");
+	public void showRankTestFail() {
 		GradeSystem TestGradeSys = new GradeSystem();
-		double test_weighted[] = {0.2,0.2,0.2,0.2,0.2};
-		String input = "​lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20";
-		
-		TestGradeSys.changeWeight(weighted, studentList);
-		if(!weighted.equals(test_weighted)) throw new Exception("result wrong!");
+		assertEquals(2, TestGradeSys.showRank(studentList, 962001051.0));
+		System.out.println("showRank_2");
 	}
 	
+	@Test
+	public void showGradeTestPass() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		int position = TestGradeSys.checkID(955002056, studentList);
+		assertEquals("88 92 88 98 91", TestGradeSys.showGrade(studentList, position));
+		System.out.println("showGrade_1");
+	}
+	
+	@Test
+	public void showGradeTestFail() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		int position = TestGradeSys.checkID(962001044, studentList);
+		assertEquals("87 86 98 88 87", TestGradeSys.showGrade(studentList, position));
+		System.out.println("showGrade_2");
+	}
+	
+	@Test
+	public void showValueTestPass() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		int position = TestGradeSys.checkID(962001044, studentList);
+		assertEquals("88.30", TestGradeSys.showValue(studentList, position));
+		System.out.println("showValue_1");
+	}
+	
+	@Test
+	public void showValueTestFail() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		int position = TestGradeSys.checkID(955002056, studentList);
+		assertEquals("92.60", TestGradeSys.showValue(studentList, position));
+		System.out.println("showValue_1");
+	}
+	
+	@Test
+	public void calValueTestPass() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		int position = TestGradeSys.checkID(955002056, studentList);
+		weighted[0] = 0.3;
+		weighted[1] = 0.3;
+		weighted[2] = 0.1;
+		weighted[3] = 0.2;
+		weighted[4] = 0.1;
+		assertEquals("91.50", TestGradeSys.calValue(studentList, weighted, position));
+		System.out.println("calValue_1");
+	}
+	
+	@Test
+	public void calValueTestFail() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		int position = TestGradeSys.checkID(962001044, studentList);
+		weighted[0] = 0.5;
+		weighted[1] = 0.1;
+		weighted[2] = 0.1;
+		weighted[3] = 0.1;
+		weighted[4] = 0.2;
+		assertEquals("88.10", TestGradeSys.calValue(studentList, weighted, position));
+		System.out.println("calValue_2");
+	}
 
 }
