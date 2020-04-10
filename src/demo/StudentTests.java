@@ -2,8 +2,8 @@ package demo;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
 import java.util.Vector;
+import java.util.Scanner;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,16 +29,17 @@ class StudentTests {
 
 	@Test
 	public void checkIdTestPass() {
+		System.out.println("checkID_1");
 		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(0, TestGradeSys.checkID(955002056, studentList));
-		System.out.println("========== pass ============");
 	}
 	
 	@Test
 	public void checkIdTestFail() {
+		System.out.println("checkID_2");
 		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(-1, TestGradeSys.checkID(0, studentList));
-		System.out.println("========== pass ============");
 	}
+	
 
 }
