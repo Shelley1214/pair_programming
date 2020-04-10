@@ -14,10 +14,10 @@ public class GradeSystem {
 		Vector<Student> studentList = new Vector<Student>();
 		A.InputData(studentList, weighted, "/input.txt");
 		System.out.print("輸入ID或 Q (結束使用)?:\n");
-		int position = A.Input(studentList); 	
+		int position = A.Input(studentList, scanner); 	
 		while (position == -1) { 		// Not exist	
 			System.out.print("輸入ID或 Q (結束使用)?:\n"); 			
-			position = A.Input(studentList);
+			position = A.Input(studentList, scanner);
 		}
 		if (position == -2) {
 			return; //Q
@@ -206,12 +206,13 @@ public class GradeSystem {
 	 * Example: input Q, return 1, and then exist
 	 * Time estimate: O(1)
 	 */
-	private int Exit(GradeSystem A, Vector<Student> studentList, int position) {
+	public int Exit(GradeSystem A, Vector<Student> studentList, int position) {
+		Scanner sc = new Scanner(System.in); 
 		System.out.print("輸入​ID​或​ Q (​結束使用​)?");
 		int exitFlag = 0;
-		position = A.Input(studentList); 				
+		position = A.Input(studentList, sc); 				
 		while (position == -1) 
-			position = A.Input(studentList); // Not exist 				
+			position = A.Input(studentList, sc); // Not exist 				
 		if (position == -2) { //Q
 			exitFlag = 1;
 		}
@@ -230,8 +231,8 @@ public class GradeSystem {
 	 * Example: input 955002056 , return position 0 (studentList[0])
 	 * Time estimate: O(checkID()) -> O(n)
 	 */
-	private int Input(Vector<Student> studentList) {
-		String num1 = scanner.next();
+	private int Input(Vector<Student> studentList, Scanner sc) {
+		String num1 = sc.next();
 		double num =0;
 		int position;
 		if(num1.contentEquals("Q")) {
@@ -249,7 +250,6 @@ public class GradeSystem {
 				position = -1;
 			}
 		}
-		//sc.close();
 		return position;
 	}
 	

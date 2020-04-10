@@ -181,6 +181,44 @@ class StudentTests {
 		assertArrayEquals(test_weighted, TestGradeSys.changeWeight(weighted, studentList));
 		System.out.println("changeWeight_1");
 	}
+	
+	/**
+	 * test function: GradeSystem.Exit()
+	 * test data: Q
+	 * @throws IOException
+	 */
+	@Test
+	public void ExitPass() throws Exception {
+		GradeSystem TestGradeSys = new GradeSystem();
+
+		String input = "Q";
+		testIn = new ByteArrayInputStream(input.getBytes());
+		System.setIn(testIn);
+	    testOut = new ByteArrayOutputStream();
+	    System.setOut(new PrintStream(testOut));
+		assertEquals(1, TestGradeSys.Exit(TestGradeSys, studentList, 0));
+		System.out.println("Exit_1");
+	}
+	
+	/**
+	 * test function: GradeSystem.Exit()
+	 * test data: 955002056
+	 * @throws IOException
+	 */
+	@Test
+	public void ExitFail() throws Exception {
+		GradeSystem TestGradeSys = new GradeSystem();
+
+		String input = "955002056";
+		testIn = new ByteArrayInputStream(input.getBytes());
+		System.setIn(testIn);
+	    testOut = new ByteArrayOutputStream();
+	    System.setOut(new PrintStream(testOut));
+		assertEquals(0, TestGradeSys.Exit(TestGradeSys, studentList, 0));
+		System.out.println("Exit_1");
+	}
+	
+	
 	/**
 	 * test function: GradeSystem.inputData()
 	 * test data: /test.txt
