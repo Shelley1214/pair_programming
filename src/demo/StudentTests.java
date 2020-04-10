@@ -105,7 +105,10 @@ class StudentTests {
 		assertEquals("92.60", TestGradeSys.showValue(studentList, position));
 		System.out.println("showValue_1");
 	}
-	
+	/**
+	 * test function: GradeSystem.changeWeight()
+	 * test data : "lab1 10 lab2 20 lab3 30 mid-term 20 final exam 20 W Y"
+	 */
 	@Test
 	public void changeWeightTestFail() throws Exception {
 		GradeSystem TestGradeSys = new GradeSystem();
@@ -118,7 +121,10 @@ class StudentTests {
 		assertArrayEquals(test_weighted, TestGradeSys.changeWeight(weighted, studentList));
 		System.out.println("changeWeight_2");
 	}
-	
+	/**
+	 * test function: GradeSystem.changeWeight()
+	 * test data : "lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20 Y"
+	 */
 	@Test
 	public void changeWeightTestPass() throws Exception {
 		GradeSystem TestGradeSys = new GradeSystem();
@@ -149,6 +155,17 @@ class StudentTests {
 		System.out.println("InputData_2");
 	}
 	
+
+	/**
+	 * test function: GradeSystem.showGrade()
+	 * test data: 
+	 * ID:955002056
+	 * studentList: 
+	 * {[ID:962001051, name:李威廷, lab1:81, lab2:32, lab3:50, mid-term:90, final_exam: 93],
+	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
+	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * weight: 0.3, 0.3, 0.1, 0.2, 0.2
+	 */
 	@Test
 	public void calValueTestPass() {
 		GradeSystem TestGradeSys = new GradeSystem();
