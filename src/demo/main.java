@@ -7,14 +7,11 @@ import java.io.*;
 public class main {
 	static double currentId = -1;
 	public static void main(String args[]) throws IOException{
-		
 		main A = new main();
 		Vector<Student> studentList = new Vector<Student>();
 		double weighted[] = {0.1,0.1,0.1,0.3,0.4};
 		A.InputData(studentList, weighted);
-		
 		System.out.print("輸入ID或 Q (結束使用)?:\n");
-
 		Scanner scanner = new Scanner(System.in);
 		int position = A.Input(studentList, scanner); 		
 		while (position == -1) { 			
@@ -23,12 +20,13 @@ public class main {
 			// Not exist 		} 		
 			if (position == -2) return; //Q
 		}
-		
-
+		A.inputCommand(scanner, studentList, weighted, position, A);
+	}
+	
+	public void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, main A) {
 		while(true) {
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
 			String num1 = scanner.next();
-
 			if(num1.contentEquals("G")) {
 				studentList.get(position).showGrade();
 			}else if(num1.contentEquals("R")) {
@@ -39,7 +37,6 @@ public class main {
 				studentList.get(position).showValue();
 			}else if(num1.contentEquals("W")) {
 				weighted = A.changeWeight(weighted, studentList, position, scanner);
-				
 			}else if(num1.contentEquals("E")) {
 				if(A.Exit(A, studentList, scanner, position) == 1) {
 					return;
@@ -50,27 +47,37 @@ public class main {
 		}
 	}
 	
-	public double[] changeWeight(double weighted[], Vector<Student> studentList, int position, Scanner scanner) {
-		System.out.println("舊配分：lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
-							"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
-							"Final Exam " + weighted[4]*100 + "%" + "\n" + "請輸入配分:");
-	
-		while(true) {
-			for(int i=0; i<5; i++) {
-				String num1 = scanner.next();
-				if(num1.contentEquals("lab1")) weighted[0] = scanner.nextDouble()/100;
-				if(num1.contentEquals("lab2")) weighted[1] = scanner.nextDouble()/100;
-				if(num1.contentEquals("lab3")) weighted[2] = scanner.nextDouble()/100;
-				if(num1.contentEquals("mid-term")) weighted[3] = scanner.nextDouble()/100;
-				if(num1.contentEquals("final")) {
-					num1 = scanner.next();
-					if(num1.contentEquals("exam")) weighted[4] = scanner.nextDouble()/100;
-				}
+	public void inputWeight(double weighted[], Scanner scanner) {
+		for(int i=0; i<5; i++) {
+			String num1 = scanner.next();
+			if(num1.contentEquals("lab1")) weighted[0] = scanner.nextDouble()/100;
+			if(num1.contentEquals("lab2")) weighted[1] = scanner.nextDouble()/100;
+			if(num1.contentEquals("lab3")) weighted[2] = scanner.nextDouble()/100;
+			if(num1.contentEquals("mid-term")) weighted[3] = scanner.nextDouble()/100;
+			if(num1.contentEquals("final")) {
+				num1 = scanner.next();
+				if(num1.contentEquals("exam")) weighted[4] = scanner.nextDouble()/100;
 			}
-			
+		}
+	}
+	
+	public void printWeight(double weighted[], int isOld) {
+		if(isOld == 1) {
+			System.out.println("舊配分：lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
+					"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
+					"final exam " + weighted[4]*100 + "%" + "\n" + "請輸入配分:");
+		}else {
 			System.out.println("請確認新配分: lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
-				"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
-				"Final Exam " + weighted[4]*100 + "% 以上正確嗎? Y (Yes) ​或​ N (No)");
+					"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
+					"Final Exam " + weighted[4]*100 + "% 以上正確嗎? Y (Yes) ​或​ N (No)");
+		}
+	}
+	
+	public double[] changeWeight(double weighted[], Vector<Student> studentList, int position, Scanner scanner) {
+		printWeight(weighted, 1);
+		while(true) {
+			inputWeight(weighted, scanner);
+			printWeight(weighted, 0);
 			String check = scanner.next();
 			while(!check.contentEquals("Y") && !check.contentEquals("N")) {
 				System.out.printf("wrong input!請重新輸入!\n Y (Yes) ​或​ N (No)\n");
@@ -78,11 +85,9 @@ public class main {
 			}
 			if(check.contentEquals("Y")) break;
 		}
-		
 		for(int i=0; i<studentList.size(); i++) {
 			studentList.get(i).calValue(weighted);
 		}
-
 		return weighted;
 	}
 	
@@ -149,7 +154,6 @@ public class main {
 	 * Example: someObject.checkID(12345, data); return -1 for nonexistent.
 	 * Time estimate: O(n)
 	 */
-	
 	public static int checkID(double inputID, Vector<Student> studentList) {
 		int number = -1;
 		for(int i=0; i<studentList.size(); i++) {
