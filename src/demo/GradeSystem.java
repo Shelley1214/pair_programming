@@ -64,7 +64,7 @@ public class GradeSystem {
 		}
 	}
 	/**
-	 * Sort the studentList by their average score and then print the current rank or the user.
+	 * Sort the studentList by their average score and then print all the users' current rank.
 	 * @param studentList:A vector store all students in form of studentObject.
 	 * Example:{[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	   [ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
