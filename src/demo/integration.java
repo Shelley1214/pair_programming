@@ -62,7 +62,7 @@ class integration {
 		assertEquals(53, TestGradeSys.showRank(studentList, 975002021));
 		
 		//Exit
-		input = "Q";
+		input = "123456 wasdwe Q";
 		testIn = new ByteArrayInputStream(input.getBytes());
 		System.setIn(testIn);
 	    testOut = new ByteArrayOutputStream();

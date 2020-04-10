@@ -13,10 +13,10 @@ public class GradeSystem {
 		GradeSystem A = new GradeSystem();
 		Vector<Student> studentList = new Vector<Student>();
 		A.InputData(studentList, weighted, "/input.txt");
-		System.out.print("輸入ID或 Q (結束使用)?:\n");
+		System.out.print("輸入ID或 Q (結束使用)?\n");
 		int position = A.Input(studentList, scanner); 	
 		while (position == -1) { 		// Not exist	
-			System.out.print("輸入ID或 Q (結束使用)?:\n"); 			
+			System.out.print("輸入ID或 Q (結束使用)?\n"); 			
 			position = A.Input(studentList, scanner);
 		}
 		if (position == -2) {
@@ -51,6 +51,7 @@ public class GradeSystem {
 				out = showValue(studentList, position);
 			}else if(num1.contentEquals("W")) {
 				weighted = A.changeWeight(weighted, studentList);
+				System.out.println(studentList.get(position).name+"平均成績為:"+studentList.get(position).value);
 			}else if(num1.contentEquals("E")) {
 				if(A.Exit(A, studentList, position) == 1) {
 					return;
@@ -173,7 +174,6 @@ public class GradeSystem {
 	 *          
 	 * Time estimate: O(1)
 	 */
-	
 	public double[] changeWeight(double weighted[], Vector<Student> studentList) {
 		Scanner sc = new Scanner(System.in);
 		while(true) {
@@ -190,7 +190,6 @@ public class GradeSystem {
 		for(int i=0; i<studentList.size(); i++) {
 			String value = calValue(studentList, weighted, i);
 		}
-//		sc.close();
 		return weighted;
 	}
 	/*
@@ -211,8 +210,10 @@ public class GradeSystem {
 		System.out.print("輸入​ID​或​ Q (​結束使用​)?");
 		int exitFlag = 0;
 		position = A.Input(studentList, sc); 				
-		while (position == -1) 
-			position = A.Input(studentList, sc); // Not exist 				
+		while (position == -1) {
+			System.out.print("輸入​ID​或​ Q (​結束使用​)?");
+			position = A.Input(studentList, sc); // Not exist 
+		}
 		if (position == -2) { //Q
 			exitFlag = 1;
 		}
