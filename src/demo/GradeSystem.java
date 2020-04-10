@@ -245,8 +245,6 @@ public class GradeSystem {
 				if(position != -1) System.out.printf("Welcome, %s\n", studentList.get(position).name);
 				else System.out.print("無此人員!請重新輸入\n");
 			}catch(Exception e) {
-				System.out.println(num1);
-				System.out.println(num);
 				System.out.println("非合法輸入");
 				position = -1;
 			}
@@ -268,9 +266,14 @@ public class GradeSystem {
 	 * 							   lab1 = 93, lab2 = 93, lab3 = 97, mid-term = 96, final exam = 94}
 	 * Time estimate: O(n), n = number of students
 	 */
-	public void InputData(Vector<Student> studentList, double weighted[], String filename) throws IOException {
+	public int InputData(Vector<Student> studentList, double weighted[], String filename) throws IOException {
 		String cwd = System.getProperty("user.dir");
-		FileInputStream fr = new FileInputStream(cwd+filename);
+		FileInputStream fr;
+		try {
+			 fr = new FileInputStream(cwd+filename);
+		}catch(Exception e) {
+			return 0;
+		}
 		Scanner inf = new Scanner(new InputStreamReader(fr,"UTF-8"));
 		while (inf.hasNext()) {
 			int id = inf.nextInt();
@@ -285,7 +288,7 @@ public class GradeSystem {
 			studentList.add(newPerson);
 		}
 		fr.close();
-		System.out.println("Success read file" + "\n");
+		return 1;
 	}
 	
 	
