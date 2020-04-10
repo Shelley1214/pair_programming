@@ -82,16 +82,16 @@ public class GradeSystem {
 	 * Example: inputWeight([0.1, 0.1, 0.1, 0.3, 0.4], scanner)
 	 * Time Estimate: O(5);
 	 */
-	private void inputWeight(double weighted[]) {
-		for(int i=0; i<5; i++) {
-			String num1 = scanner.next();
-			if(num1.contentEquals("lab1")) weighted[0] = scanner.nextDouble()/100;
-			if(num1.contentEquals("lab2")) weighted[1] = scanner.nextDouble()/100;
-			if(num1.contentEquals("lab3")) weighted[2] = scanner.nextDouble()/100;
-			if(num1.contentEquals("mid-term")) weighted[3] = scanner.nextDouble()/100;
+	private void inputWeight(double weighted[], Scanner sc) {
+		for(int i=0; i<6; i++) {
+			String num1 = sc.next();
+			if(num1.contentEquals("lab1")) weighted[0] = sc.nextDouble()/100;
+			if(num1.contentEquals("lab2")) weighted[1] = sc.nextDouble()/100;
+			if(num1.contentEquals("lab3")) weighted[2] = sc.nextDouble()/100;
+			if(num1.contentEquals("mid-term")) weighted[3] = sc.nextDouble()/100;
 			if(num1.contentEquals("final")) {
-				num1 = scanner.next();
-				if(num1.contentEquals("exam")) weighted[4] = scanner.nextDouble()/100;
+				num1 = sc.next();
+				if(num1.contentEquals("exam")) weighted[4] = sc.nextDouble()/100;
 			}
 		}
 	}
@@ -133,19 +133,21 @@ public class GradeSystem {
 	
 	public double[] changeWeight(double weighted[], Vector<Student> studentList) {
 		printWeight(weighted, 1);
+		Scanner sc = new Scanner(System.in);
 		while(true) {
-			inputWeight(weighted);
+			inputWeight(weighted, sc);
 			printWeight(weighted, 0);
-			String check = scanner.next();
+			String check = sc.next();
 			while(!check.contentEquals("Y") && !check.contentEquals("N")) {
 				System.out.printf("wrong input!請重新輸入!\n Y (Yes) ​或​ N (No)\n");
-				check = scanner.next();
+				check = sc.next();
 			}
 			if(check.contentEquals("Y")) break;
 		}
 		for(int i=0; i<studentList.size(); i++) {
 			studentList.get(i).calValue(weighted);
 		}
+		sc.close();
 		return weighted;
 	}
 	/*
@@ -167,7 +169,7 @@ public class GradeSystem {
 		position = A.Input(studentList); 				
 		while (position == -1) 
 			position = A.Input(studentList); // Not exist 				
-		if (position == -2) { 
+		if (position == -2) { //Q
 			exitFlag = 1;
 		}
 		return exitFlag;
