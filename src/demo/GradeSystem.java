@@ -14,12 +14,13 @@ public class GradeSystem {
 		Vector<Student> studentList = new Vector<Student>();
 		A.InputData(studentList, weighted, "/input.txt");
 		System.out.print("輸入ID或 Q (結束使用)?:\n");
-		int position = A.Input(studentList); 		
-		while (position == -1) { 			
+		int position = A.Input(studentList); 	
+		while (position == -1) { 		// Not exist	
 			System.out.print("輸入ID或 Q (結束使用)?:\n"); 			
 			position = A.Input(studentList);
-			// Not exist 		} 		
-			if (position == -2) return; //Q
+		}
+		if (position == -2) {
+			return; //Q
 		}
 		A.inputCommand(studentList, weighted, position, A);
 	}
@@ -125,7 +126,7 @@ public class GradeSystem {
 	 * Time Estimate: O(5);
 	 */
 	private void inputWeight(double weighted[], Scanner sc) {
-		for(int i=0; i<6; i++) {
+		for(int i=0; i<5; i++) {
 			String num1 = sc.next();
 			if(num1.contentEquals("lab1")) weighted[0] = sc.nextDouble()/100;
 			if(num1.contentEquals("lab2")) weighted[1] = sc.nextDouble()/100;
@@ -174,9 +175,9 @@ public class GradeSystem {
 	 */
 	
 	public double[] changeWeight(double weighted[], Vector<Student> studentList) {
-		printWeight(weighted, 1);
 		Scanner sc = new Scanner(System.in);
 		while(true) {
+			printWeight(weighted, 1);
 			inputWeight(weighted, sc);
 			printWeight(weighted, 0);
 			String check = sc.next();
@@ -189,7 +190,7 @@ public class GradeSystem {
 		for(int i=0; i<studentList.size(); i++) {
 			String value = calValue(studentList, weighted, i);
 		}
-		sc.close();
+//		sc.close();
 		return weighted;
 	}
 	/*
@@ -205,7 +206,7 @@ public class GradeSystem {
 	 * Example: input Q, return 1, and then exist
 	 * Time estimate: O(1)
 	 */
-	public int Exit(GradeSystem A, Vector<Student> studentList, int position) {
+	private int Exit(GradeSystem A, Vector<Student> studentList, int position) {
 		System.out.print("輸入​ID​或​ Q (​結束使用​)?");
 		int exitFlag = 0;
 		position = A.Input(studentList); 				
@@ -229,13 +230,13 @@ public class GradeSystem {
 	 * Example: input 955002056 , return position 0 (studentList[0])
 	 * Time estimate: O(checkID()) -> O(n)
 	 */
-	public int Input(Vector<Student> studentList) {
+	private int Input(Vector<Student> studentList) {
 		String num1 = scanner.next();
 		double num =0;
 		int position;
 		if(num1.contentEquals("Q")) {
 			System.out.print("結束了\n");
-			return -2;
+			position = -2;
 		}else {
 			try {
 				num = Double.parseDouble(num1);
@@ -244,10 +245,13 @@ public class GradeSystem {
 				if(position != -1) System.out.printf("Welcome, %s\n", studentList.get(position).name);
 				else System.out.print("無此人員!請重新輸入\n");
 			}catch(Exception e) {
+				System.out.println(num1);
+				System.out.println(num);
 				System.out.println("非合法輸入");
 				position = -1;
 			}
 		}
+		//sc.close();
 		return position;
 	}
 	

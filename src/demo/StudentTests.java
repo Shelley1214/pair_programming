@@ -106,33 +106,39 @@ class StudentTests {
 		System.out.println("showValue_1");
 	}
 	
-//	@Test
-//	public void changeWeightTestPass() throws Exception {
-//		System.out.println("changeWeight_1");
-//		GradeSystem TestGradeSys = new GradeSystem();
-//		double test_weighted[] = {0.2,0.2,0.2,0.2,0.2};
-//
-//		String input ="​ lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20 Y";
-//		testIn = new ByteArrayInputStream(input.getBytes());
-//		System.setIn(testIn);
-//	    testOut = new ByteArrayOutputStream();
-//	    System.setOut(new PrintStream(testOut));
-//		assertArrayEquals(test_weighted, TestGradeSys.changeWeight(weighted, studentList));
-//	}
-	
 	@Test
-	public void ExitPass() throws Exception {
-		System.out.println("Exit");
+	public void changeWeightTestFail() throws Exception {
 		GradeSystem TestGradeSys = new GradeSystem();
-	
-		String input ="​Q";
+		double test_weighted[] = {0.1,0.2,0.3,0.2,0.2};
+		String input = "lab1 10 lab2 20 lab3 30 mid-term 20 final exam 20 W Y";
 		testIn = new ByteArrayInputStream(input.getBytes());
 		System.setIn(testIn);
 	    testOut = new ByteArrayOutputStream();
 	    System.setOut(new PrintStream(testOut));
-	    assertEquals(1, TestGradeSys.Exit(TestGradeSys, studentList, 1));
+		assertArrayEquals(test_weighted, TestGradeSys.changeWeight(weighted, studentList));
+		System.out.println("changeWeight_2");
 	}
+	
+	@Test
+	public void changeWeightTestPass() throws Exception {
+		GradeSystem TestGradeSys = new GradeSystem();
+		double test_weighted[] = {0.2,0.2,0.2,0.2,0.2};
 
+		String input = "lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20 Y";
+		testIn = new ByteArrayInputStream(input.getBytes());
+		System.setIn(testIn);
+	    testOut = new ByteArrayOutputStream();
+	    System.setOut(new PrintStream(testOut));
+		assertArrayEquals(test_weighted, TestGradeSys.changeWeight(weighted, studentList));
+		System.out.println("changeWeight_1");
+	}
+	
+
+//	@Test
+//	public void InputDataPass() {
+//		
+//	}
+	@Test
 	public void calValueTestPass() {
 		GradeSystem TestGradeSys = new GradeSystem();
 		int position = TestGradeSys.checkID(955002056, studentList);
