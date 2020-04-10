@@ -23,6 +23,19 @@ public class main {
 		A.inputCommand(scanner, studentList, weighted, position, A);
 	}
 	
+	/**
+	 * Scan and parsing input command to call the related command handler.
+	 * @param scanner
+	 * @param studentList: A vector store all students in form of studentObject.
+	 * ex:{[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
+	 * 	   [ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * @param weighted: An array store weights for each subjects.
+	 * @param position: This student's index in studentList.
+	 * @param A: mainObject, to call other method.
+	 * @return None
+	 * Example: A.inputCommand(scanner,studentList, [0.1, 0.1, 0.1, 0.3, 0.4], 1, A)
+	 * Time Estimate: O(1)
+	 */
 	private void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, main A) {
 		while(true) {
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
@@ -46,7 +59,14 @@ public class main {
 			}
 		}
 	}
-	
+	/**
+	 * Scan and parsing weights for each subject entered by users.
+	 * @param weighted:An array store weights for each subjects.
+	 * @param scanner
+	 * @return None
+	 * Example: inputWeight([0.1, 0.1, 0.1, 0.3, 0.4], scanner)
+	 * Time Estimate: O(5);
+	 */
 	private void inputWeight(double weighted[], Scanner scanner) {
 		for(int i=0; i<5; i++) {
 			String num1 = scanner.next();
@@ -60,7 +80,14 @@ public class main {
 			}
 		}
 	}
-	
+	/**
+	 * Print the old or new score distribution to console.
+	 * @param weighted:An array store weights for each subjects.
+	 * @param isOld: An flag that indicate whether It supposed to print the old score distribution or new one.
+	 * @return None
+	 * Example:printWeight([0.1, 0.1, 0.1, 0.3, 0.4], 0])
+	 * Time Estimate: O(1)
+	 */
 	private void printWeight(double weighted[], int isOld) {
 		if(isOld == 1) {
 			System.out.println("舊配分：lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
@@ -171,7 +198,17 @@ class Student implements Comparable<Student> {
 	public int lab1, lab2, lab3, mid, final_exam;
 	public double value;
 	
-	
+	/**
+	 * Constructor for StudentOBject
+	 * @param ID_
+	 * @param name_
+	 * @param lab1_
+	 * @param lab2_
+	 * @param lab3_
+	 * @param mid_
+	 * @param final_exam_
+	 * @return None
+	 */
 	public Student(int ID_, String name_, int lab1_, int lab2_, int lab3_, int mid_, int final_exam_) {
 		ID = ID_;
 		name = name_;
@@ -181,6 +218,13 @@ class Student implements Comparable<Student> {
 		mid = mid_;
 		final_exam = final_exam_;
 	}
+	/**
+	 * Print this student's grade.
+	 * @param: None
+	 * @return: None
+	 * Example: studentObject.showGrade()
+	 * Time estimate: O(1)
+	 */
 	public void showGrade() {
 		System.out.println(name + "成績如下：" );
 		System.out.println("Lab1 : "+ lab1 );
@@ -189,14 +233,34 @@ class Student implements Comparable<Student> {
 		System.out.println("Midterm : "+ mid );
 		System.out.println("Final Exam : "+ final_exam );
 	}
+	/**
+	 * Calculate this student's average score according to his score for each subjects and weights and store to 'value'.
+	 * @param weight: store all weight for each subject.
+	 * @return None
+	 * Example: studentObject.calValue([0.1, 0.1, 0.1, 0.3, 0.4])
+	 * Time estimate: O(1)
+	 */
 	public void calValue(double weight[]) {
 		value = lab1*weight[0] + lab2*weight[1] + lab3*weight[2] +
 				mid*weight[3] + final_exam*weight[4];
 	}
+	/**
+	 * Print this student's average score.
+	 * @param None
+	 * @return None
+	 * Example: studentObject.showValue()
+	 * Time Estimate: O(1)
+	 */
 	public void showValue() {
 		System.out.println(name + "的平均成績為：" + value + "分" + "\n");
 	}
-	
+	/**
+	 * Custom rule for JAVA Collection Sort.
+	 * @param other studentObject which prepared to compare to myself.
+	 * @return 1 if self.value > otherStudent.value 0 ; -1 if self.value < otherStudent.value; 0 else
+	 * Example:
+	 * Time estimate: O(1)
+	 */
 	@Override
     public int compareTo(Student other) {
 		if(value > other.value) {return 1;}
