@@ -41,7 +41,7 @@ public class GradeSystem {
 	private void inputCommand(Vector<Student> studentList, double weighted[], int position, GradeSystem A) {
 		while(true) {
 			String out = "";
-			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
+			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) L顯示全體排名\n4) A顯示平均 \n5) W更新配分 \n6) E離開選單\n");
 			String num1 = scanner.next();
 			if(num1.contentEquals("G")) {
 				out = showGrade(studentList, position);
@@ -52,6 +52,8 @@ public class GradeSystem {
 			}else if(num1.contentEquals("W")) {
 				weighted = A.changeWeight(weighted, studentList);
 				System.out.println(studentList.get(position).name+"平均成績為:"+studentList.get(position).value);
+			}else if(num1.contentEquals("L")) {
+				A.ShowAllRank(studentList);
 			}else if(num1.contentEquals("E")) {
 				if(A.Exit(A, studentList, position) == 1) {
 					return;
@@ -59,6 +61,22 @@ public class GradeSystem {
 			}else {
 				System.out.print("Wrong input!\n");
 			}
+		}
+	}
+	/**
+	 * Sort the studentList by their average score and then print the current rank or the user.
+	 * @param studentList:A vector store all students in form of studentObject.
+	 * Example:{[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
+	 * 	   [ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * 
+	 * Example:showRank(studentList)
+	 * Time Estimate: O(log n)
+	 */
+	private void ShowAllRank(Vector<Student> studentList) {
+		Collections.sort(studentList);
+		for (int i=0; i<studentList.size(); i++) {
+			int rank = i+1;
+			System.out.println("排名第"+ rank +"名的為:"+studentList.get(i).name +",平均成績:"+studentList.get(i).value);
 		}
 	}
 	
@@ -159,7 +177,7 @@ public class GradeSystem {
 		}
 	}
 	
-	/*
+	/**
 	 * when console get "W" command
 	 *  
 	 * @param studentList = data	 
@@ -192,7 +210,7 @@ public class GradeSystem {
 		}
 		return weighted;
 	}
-	/*
+	/**
 	 * when console get "E" command
 	 *  
 	 * @param A = main
@@ -220,7 +238,7 @@ public class GradeSystem {
 		return exitFlag;
 	}
 	
-	/*
+	/**
 	 * when console get "Q" or an ID
 	 *  
 	 * @param studentList = data
@@ -254,7 +272,7 @@ public class GradeSystem {
 		return position;
 	}
 	
-	/*
+	/**
 	 * input the data from the text file
 	 * @param studentList = data
 	 * @param weighted = weighted data (init = 0.1,0.1,0.1,0.3,0.4)
@@ -293,7 +311,7 @@ public class GradeSystem {
 	}
 	
 	
-	/*
+	/**
 	 * check whether the id is in the data or not
 	 * @param ID = input ID
 	 * @param studentList = data
