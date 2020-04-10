@@ -11,11 +11,11 @@ public class main {
 		Vector<Student> studentList = new Vector<Student>();
 		double weighted[] = {0.1,0.1,0.1,0.3,0.4};
 		A.InputData(studentList, weighted);
-		System.out.print("輸入ID或 Q (結束使用)?:\n");
+		System.out.print("頛詨ID��� Q (蝯�蝙�)?:\n");
 		Scanner scanner = new Scanner(System.in);
 		int position = A.Input(studentList, scanner); 		
 		while (position == -1) { 			
-			System.out.print("輸入ID或 Q (結束使用)?:\n"); 			
+			System.out.print("頛詨ID��� Q (蝯�蝙�)?:\n"); 			
 			position = A.Input(studentList, scanner);
 			// Not exist 		} 		
 			if (position == -2) return; //Q
@@ -25,14 +25,14 @@ public class main {
 	
 	public void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, main A) {
 		while(true) {
-			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
+			System.out.print("頛詨��誘\n1) G憿舐內��蜀 \n2) R憿舐內���� \n3) A憿舐內撟喳�� \n4) W������ \n5) E����\n");
 			String num1 = scanner.next();
 			if(num1.contentEquals("G")) {
 				studentList.get(position).showGrade();
 			}else if(num1.contentEquals("R")) {
 				Collections.sort(studentList);
 				position = checkID(currentId, studentList);
-				System.out.println(studentList.get(position).name + "的排名為 : " + position);
+				System.out.println(studentList.get(position).name + "���� : " + position);
 			}else if(num1.contentEquals("A")) {
 				studentList.get(position).showValue();
 			}else if(num1.contentEquals("W")) {
@@ -63,15 +63,31 @@ public class main {
 	
 	public void printWeight(double weighted[], int isOld) {
 		if(isOld == 1) {
-			System.out.println("舊配分：lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
+			System.out.println("�����ab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
 					"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
-					"final exam " + weighted[4]*100 + "%" + "\n" + "請輸入配分:");
+					"final exam " + weighted[4]*100 + "%" + "\n" + "隢撓�����:");
 		}else {
-			System.out.println("請確認新配分: lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
+			System.out.println("隢Ⅱ隤����: lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
 					"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
-					"Final Exam " + weighted[4]*100 + "% 以上正確嗎? Y (Yes) ​或​ N (No)");
+					"Final Exam " + weighted[4]*100 + "% 隞乩�迤蝣箏��? Y (Yes) ���� N (No)");
 		}
 	}
+	
+	/*
+	 * when console get "W" command
+	 *  
+	 * @param studentList = data	 
+	 * @param weighted = each weighted value
+	 * @param position = student's vector position
+	 * @param scanner = scan console
+	 * 
+	 * @return reweighted value
+	 * 		   
+	 * Example: input lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20
+	 *          weighted[5] = {0.2, 0.2, 0.2, 0.2, 0.2}
+	 *          
+	 * Time estimate: O(1)
+	 */
 	
 	public double[] changeWeight(double weighted[], Vector<Student> studentList, int position, Scanner scanner) {
 		printWeight(weighted, 1);
@@ -80,7 +96,7 @@ public class main {
 			printWeight(weighted, 0);
 			String check = scanner.next();
 			while(!check.contentEquals("Y") && !check.contentEquals("N")) {
-				System.out.printf("wrong input!請重新輸入!\n Y (Yes) ​或​ N (No)\n");
+				System.out.printf("wrong input!隢�頛詨!\n Y (Yes) ���� N (No)\n");
 				check = scanner.next();
 			}
 			if(check.contentEquals("Y")) break;
@@ -90,9 +106,21 @@ public class main {
 		}
 		return weighted;
 	}
-	
+	/*
+	 * when console get "E" command
+	 *  
+	 * @param A = main
+	 * @param studentList = data
+	 * @param scanner = scan console
+	 * 
+	 * @return 0 -> another student ID
+	 * 		   1 -> quit
+	 * 
+	 * Example: input Q, return 1, and then exist
+	 * Time estimate: O(1)
+	 */
 	public int Exit(main A, Vector<Student> studentList, Scanner scanner, int position) {
-		System.out.print("輸入​ID​或​ Q (​結束使用​)?"); 
+		System.out.print("頛詨�D���� Q (���蝙���)?"); 
 		int exitFlag = 0;
 		position = A.Input(studentList, scanner); 				
 		while (position == -1) 
@@ -103,12 +131,24 @@ public class main {
 		return exitFlag;
 	}
 	
+	/*
+	 * when console get "Q" or an ID
+	 *  
+	 * @param studentList = data
+	 * @param scanner = scan console
+	 * 
+	 * @return -2 -> quit
+	 * 		   or student's vector position
+	 * 
+	 * Example: input 955002056 , return position 0 (studentList[0])
+	 * Time estimate: O(checkID()) -> O(n)
+	 */
 	public int Input(Vector<Student> studentList, Scanner scanner) {
 		// Q or input ID
 		String num1 = scanner.next();
 		double num;
 		if(num1.contentEquals("Q")) {
-			System.out.print("結束了\n");
+			System.out.print("蝯��n");
 			return -2;
 		}else {
 			num = Double.parseDouble(num1);
@@ -120,11 +160,24 @@ public class main {
 			System.out.printf("Welcome, %s\n", studentList.get(position).name);
 		}
 		else {
-			System.out.print("無此人員!請重新輸入\n");
+			System.out.print("�甇支犖�!隢�頛詨\n");
 		}
 		return position;
 	}
 	
+	/*
+	 * input the data from the text file
+	 * @param studentList = data
+	 * @param weighted = weighted data (init = 0.1,0.1,0.1,0.3,0.4)
+	 * @return -
+	 * @throws NoSuchFileExceptions
+	 * 			if File is not exist, throw Exceptions
+	 * 
+	 * Example :　input.txt -> 975002070 楊宗穎 93 93 97 96 94
+	 * 			 studentList[] = { id = 975002070, name = 楊宗穎, 
+	 * 							   lab1 = 93, lab2 = 93, lab3 = 97, mid-term = 96, final exam = 94}
+	 * Time estimate: O(n), n = number of students
+	 */
 	public void InputData(Vector<Student> studentList, double weighted[]) throws IOException {
 		String cwd = System.getProperty("user.dir");
 		FileInputStream fr = new FileInputStream(cwd+"/input.txt");
@@ -148,10 +201,10 @@ public class main {
 	/*
 	 * check whether the id is in the data or not
 	 * @param ID = input ID
-	 * @param v1 = data
-	 * @return number
+	 * @param studentList = data
+	 * @return vector position of the ID
 	 * 
-	 * Example: someObject.checkID(12345, data); return -1 for nonexistent.
+	 * Example: someObject.checkID(00000, data); return -1 for nonexistent.
 	 * Time estimate: O(n)
 	 */
 	public static int checkID(double inputID, Vector<Student> studentList) {
@@ -186,7 +239,7 @@ class Student implements Comparable<Student> {
 		final_exam = final_exam_;
 	}
 	public void showGrade() {
-		System.out.println(name + "成績如下：" );
+		System.out.println(name + "��蜀憒���" );
 		System.out.println("Lab1 : "+ lab1 );
 		System.out.println("Lab2 : "+ lab2);
 		System.out.println("Lab3 : "+ lab3);
@@ -198,7 +251,7 @@ class Student implements Comparable<Student> {
 				mid*weight[3] + final_exam*weight[4];
 	}
 	public void showValue() {
-		System.out.println(name + "的平均成績為：" + value + "分" + "\n");
+		System.out.println(name + "��像���蜀�嚗�" + value + "���" + "\n");
 	}
 	
 	@Override
