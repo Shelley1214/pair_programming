@@ -43,9 +43,7 @@ public class GradeSystem {
 			if(num1.contentEquals("G")) {
 				studentList.get(position).showGrade();
 			}else if(num1.contentEquals("R")) {
-				Collections.sort(studentList);
-				position = checkID(currentId, studentList);
-				System.out.println(studentList.get(position).name + "的排名為 : " + position);
+				position = showRank(studentList, currentId);
 			}else if(num1.contentEquals("A")) {
 				studentList.get(position).showValue();
 			}else if(num1.contentEquals("W")) {
@@ -58,6 +56,23 @@ public class GradeSystem {
 				System.out.print("Wrong input!\n");
 			}
 		}
+	}
+	/**
+	 * Sort the studentList by their average score and then return and print the current rank or the user.
+	 * @param studentList:A vector store all students in form of studentObject.
+	 * ex:{[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
+	 * 	   [ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * @param currentID: The current user(student) ID.
+	 * @return position: The index of current student in the studentList.
+	 * Example:showRank(studentList, 962001051)
+	 * Time Estimate: O(lgn)
+	 */
+	public int showRank(Vector<Student> studentList, double currentID) {
+		Collections.sort(studentList);
+		int position = checkID(currentId, studentList);
+		int rank = position + 1;
+		System.out.println(studentList.get(position).name + "的排名為 : " + rank);
+		return position;
 	}
 	/**
 	 * Scan and parsing weights for each subject entered by users.
@@ -310,14 +325,14 @@ class Student implements Comparable<Student> {
 	/**
 	 * Custom rule for JAVA Collection Sort.
 	 * @param other studentObject which prepared to compare to myself.
-	 * @return 1 if self.value > otherStudent.value 0 ; -1 if self.value < otherStudent.value; 0 else
+	 * @return -1 if self.value > otherStudent.value 0 ; 1 if self.value < otherStudent.value; 0 else
 	 * Example:
 	 * Time estimate: O(1)
 	 */
 	@Override
     public int compareTo(Student other) {
-		if(value > other.value) {return 1;}
-		else if(value < other.value) {return -1;}
+		if(value > other.value) {return -1;}
+		else if(value < other.value) {return 1;}
 		else {return 0;}
     }
 	
