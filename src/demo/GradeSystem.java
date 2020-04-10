@@ -6,21 +6,21 @@ import java.io.*;
 
 public class GradeSystem {
 	static double currentId = -1;
+	private static Scanner scanner = new Scanner(System.in);
 	public static void main(String args[]) throws IOException{
 		GradeSystem A = new GradeSystem();
 		Vector<Student> studentList = new Vector<Student>();
 		double weighted[] = {0.1,0.1,0.1,0.3,0.4};
 		A.InputData(studentList, weighted, "/input.txt");
 		System.out.print("輸入ID或 Q (結束使用)?:\n");
-		Scanner scanner = new Scanner(System.in);
-		int position = A.Input(studentList, scanner); 		
+		int position = A.Input(studentList); 		
 		while (position == -1) { 			
 			System.out.print("輸入ID或 Q (結束使用)?:\n"); 			
-			position = A.Input(studentList, scanner);
+			position = A.Input(studentList);
 			// Not exist 		} 		
 			if (position == -2) return; //Q
 		}
-		A.inputCommand(scanner, studentList, weighted, position, A);
+		A.inputCommand(studentList, weighted, position, A);
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class GradeSystem {
 	 * Example: A.inputCommand(scanner,studentList, [0.1, 0.1, 0.1, 0.3, 0.4], 1, A)
 	 * Time Estimate: O(1)
 	 */
-	private void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, GradeSystem A) {
+	private void inputCommand(Vector<Student> studentList, double weighted[], int position, GradeSystem A) {
 		while(true) {
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
 			String num1 = scanner.next();
@@ -47,9 +47,9 @@ public class GradeSystem {
 			}else if(num1.contentEquals("A")) {
 				studentList.get(position).showValue();
 			}else if(num1.contentEquals("W")) {
-				weighted = A.changeWeight(weighted, studentList, position, scanner);
+				weighted = A.changeWeight(weighted, studentList);
 			}else if(num1.contentEquals("E")) {
-				if(A.Exit(A, studentList, scanner, position) == 1) {
+				if(A.Exit(A, studentList, position) == 1) {
 					return;
 				}
 			}else {
@@ -82,7 +82,7 @@ public class GradeSystem {
 	 * Example: inputWeight([0.1, 0.1, 0.1, 0.3, 0.4], scanner)
 	 * Time Estimate: O(5);
 	 */
-	private void inputWeight(double weighted[], Scanner scanner) {
+	private void inputWeight(double weighted[]) {
 		for(int i=0; i<5; i++) {
 			String num1 = scanner.next();
 			if(num1.contentEquals("lab1")) weighted[0] = scanner.nextDouble()/100;
@@ -131,10 +131,10 @@ public class GradeSystem {
 	 * Time estimate: O(1)
 	 */
 	
-	public double[] changeWeight(double weighted[], Vector<Student> studentList, int position, Scanner scanner) {
+	public double[] changeWeight(double weighted[], Vector<Student> studentList) {
 		printWeight(weighted, 1);
 		while(true) {
-			inputWeight(weighted, scanner);
+			inputWeight(weighted);
 			printWeight(weighted, 0);
 			String check = scanner.next();
 			while(!check.contentEquals("Y") && !check.contentEquals("N")) {
@@ -161,12 +161,12 @@ public class GradeSystem {
 	 * Example: input Q, return 1, and then exist
 	 * Time estimate: O(1)
 	 */
-	public int Exit(GradeSystem A, Vector<Student> studentList, Scanner scanner, int position) {
+	public int Exit(GradeSystem A, Vector<Student> studentList, int position) {
 		System.out.print("輸入​ID​或​ Q (​結束使用​)?");
 		int exitFlag = 0;
-		position = A.Input(studentList, scanner); 				
+		position = A.Input(studentList); 				
 		while (position == -1) 
-			position = A.Input(studentList, scanner); // Not exist 				
+			position = A.Input(studentList); // Not exist 				
 		if (position == -2) { 
 			exitFlag = 1;
 		}
@@ -185,7 +185,7 @@ public class GradeSystem {
 	 * Example: input 955002056 , return position 0 (studentList[0])
 	 * Time estimate: O(checkID()) -> O(n)
 	 */
-	public int Input(Vector<Student> studentList, Scanner scanner) {
+	public int Input(Vector<Student> studentList) {
 		String num1 = scanner.next();
 		double num =0;
 		int position;
