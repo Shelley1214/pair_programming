@@ -249,7 +249,7 @@ public class GradeSystem {
 	 * Example: someObject.checkID(00000, data); return -1 for nonexistent.
 	 * Time estimate: O(n)
 	 */
-	public static int checkID(double inputID, Vector<Student> studentList) {
+	public int checkID(double inputID, Vector<Student> studentList) {
 		int number = -1;
 		for(int i=0; i<studentList.size(); i++) {
 			if(inputID == studentList.get(i).ID) {
