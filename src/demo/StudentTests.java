@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 
 class StudentTests {
-	
+	GradeSystem TestGradeSys = new GradeSystem();
 	private Vector <Student> studentList = new Vector<Student>();
 	private double weighted[] = {0.1,0.1,0.1,0.3,0.4};
 	private String filename = "/test.txt";
@@ -32,25 +32,26 @@ class StudentTests {
 	@AfterEach
 	void tearDown() throws Exception {
 		studentList.clear();
+		TestGradeSys = null;
 		System.out.println("========== After test ============");
 	}
 	/**
 	 * test function: GradeSystem.checkID()
 	 * test data: 955002056
+	 * Time consuming: 0.003s
 	 */
 	@Test
 	public void checkIdTestPass() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(1, TestGradeSys.checkID(955002056, studentList));
 		System.out.println("checkID_1");
 	}
 	/**
 	 * test function: GradeSystem.checkID()
 	 * test data: 0
+	 * Time consuming: 0.002s
 	 */
 	@Test
 	public void checkIdTestFail() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(-1, TestGradeSys.checkID(0, studentList));
 		System.out.println("checkID_2");
 	}
@@ -62,10 +63,10 @@ class StudentTests {
 	 * {[ID:962001051, name:李威廷, lab1:81, lab2:32, lab3:50, mid-term:90, final_exam: 93],
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * Time consuming: 0.003s
 	 */
 	@Test
 	public void showRankTestPass() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(1, TestGradeSys.showRank(studentList, 962001044.0));
 		System.out.println("showRank_1");
 	}
@@ -77,10 +78,10 @@ class StudentTests {
 	 * {[ID:962001051, name:李威廷, lab1:81, lab2:32, lab3:50, mid-term:90, final_exam: 93],
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * Time consuming: 0.002s
 	 */
 	@Test
 	public void showRankTestFail() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(2, TestGradeSys.showRank(studentList, 962001051.0));
 		System.out.println("showRank_2");
 	}
@@ -92,10 +93,10 @@ class StudentTests {
 	 * {[ID:962001051, name:李威廷, lab1:81, lab2:32, lab3:50, mid-term:90, final_exam: 93],
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * Time consuming: 0.012s
 	 */
 	@Test
 	public void showGradeTestPass() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		int position = TestGradeSys.checkID(955002056, studentList);
 		assertEquals("88 92 88 98 91", TestGradeSys.showGrade(studentList, position));
 		System.out.println("showGrade_1");
@@ -108,10 +109,10 @@ class StudentTests {
 	 * {[ID:962001051, name:李威廷, lab1:81, lab2:32, lab3:50, mid-term:90, final_exam: 93],
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * Time consuming: 0.002s
 	 */
 	@Test
 	public void showGradeTestFail() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		int position = TestGradeSys.checkID(962001044, studentList);
 		assertEquals("87 86 98 88 87", TestGradeSys.showGrade(studentList, position));
 		System.out.println("showGrade_2");
@@ -124,10 +125,10 @@ class StudentTests {
 	 * {[ID:962001051, name:李威廷, lab1:81, lab2:32, lab3:50, mid-term:90, final_exam: 93],
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * Time consuming: 0.002s
 	 */
 	@Test
 	public void showValueTestPass() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		int position = TestGradeSys.checkID(962001044, studentList);
 		assertEquals("88.30", TestGradeSys.showValue(studentList, position));
 		System.out.println("showValue_1");
@@ -140,10 +141,10 @@ class StudentTests {
 	 * {[ID:962001051, name:李威廷, lab1:81, lab2:32, lab3:50, mid-term:90, final_exam: 93],
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
+	 * Time consuming: 0.004s
 	 */
 	@Test
 	public void showValueTestFail() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		int position = TestGradeSys.checkID(955002056, studentList);
 		assertEquals("92.60", TestGradeSys.showValue(studentList, position));
 		System.out.println("showValue_1");
@@ -151,10 +152,10 @@ class StudentTests {
 	/**
 	 * test function: GradeSystem.changeWeight()
 	 * test data : "lab1 10 lab2 20 lab3 30 mid-term 20 final exam 20 W Y"
+	 * Time consuming: 0.013s
 	 */
 	@Test
 	public void changeWeightTestFail() throws Exception {
-		GradeSystem TestGradeSys = new GradeSystem();
 		double test_weighted[] = {0.1,0.2,0.3,0.2,0.2};
 		String input = "lab1 10 lab2 20 lab3 30 mid-term 20 final exam 20 W Y";
 		testIn = new ByteArrayInputStream(input.getBytes());
@@ -167,12 +168,11 @@ class StudentTests {
 	/**
 	 * test function: GradeSystem.changeWeight()
 	 * test data : "lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20 Y"
+	 * Time consuming: 0.006s
 	 */
 	@Test
 	public void changeWeightTestPass() throws Exception {
-		GradeSystem TestGradeSys = new GradeSystem();
 		double test_weighted[] = {0.2,0.2,0.2,0.2,0.2};
-
 		String input = "lab1 20 lab2 20 lab3 20 mid-term 20 final exam 20 Y";
 		testIn = new ByteArrayInputStream(input.getBytes());
 		System.setIn(testIn);
@@ -186,11 +186,10 @@ class StudentTests {
 	 * test function: GradeSystem.Exit()
 	 * test data: Q
 	 * @throws IOException
+	 * Time consuming: 0.003s
 	 */
 	@Test
 	public void ExitPass() throws Exception {
-		GradeSystem TestGradeSys = new GradeSystem();
-
 		String input = "Q";
 		testIn = new ByteArrayInputStream(input.getBytes());
 		System.setIn(testIn);
@@ -204,11 +203,10 @@ class StudentTests {
 	 * test function: GradeSystem.Exit()
 	 * test data: 955002056
 	 * @throws IOException
+	 * Time consuming: 0.028s
 	 */
 	@Test
 	public void ExitFail() throws Exception {
-		GradeSystem TestGradeSys = new GradeSystem();
-
 		String input = "955002056";
 		testIn = new ByteArrayInputStream(input.getBytes());
 		System.setIn(testIn);
@@ -223,10 +221,10 @@ class StudentTests {
 	 * test function: GradeSystem.inputData()
 	 * test data: /test.txt
 	 * @throws IOException
+	 * Time consuming: 0.004s
 	 */
 	@Test
 	public void InputDataPass() throws IOException {
-		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(1,TestGradeSys.InputData(studentList, weighted, "/test.txt")); 
 		System.out.println("InputData_1");
 	}
@@ -234,10 +232,10 @@ class StudentTests {
 	 * test function: GradeSystem.inputData()
 	 * test data: /wrong.txt
 	 * @throws IOException
+	 * Time consuming: 0.003s
 	 */
 	@Test
 	public void InputDataFail() throws IOException {
-		GradeSystem TestGradeSys = new GradeSystem();
 		assertEquals(0,TestGradeSys.InputData(studentList, weighted, "/wrong.txt")); 
 		System.out.println("InputData_2");
 	}
@@ -252,10 +250,10 @@ class StudentTests {
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
 	 * weight: 0.3, 0.3, 0.1, 0.2, 0.2
+	 * Time consuming: 0.002s
 	 */
 	@Test
 	public void calValueTestPass() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		int position = TestGradeSys.checkID(955002056, studentList);
 		weighted[0] = 0.3;
 		weighted[1] = 0.3;
@@ -274,10 +272,10 @@ class StudentTests {
 	 * 	[ID:955002056, name:許文馨, lab1:88, lab2:92, lab3:88, mid-term:98, final_exam: 91],
 	 * 	[ID:962001044, name:凌宗廷, lab1:87, lab2:86, lab3:98, mid-term:88, final_exam: 87]}
 	 * weight: 0.5, 0.1, 0.1, 0.1, 0.2
+	 * Time consuming: 0.003s
 	 */
 	@Test
 	public void calValueTestFail() {
-		GradeSystem TestGradeSys = new GradeSystem();
 		int position = TestGradeSys.checkID(962001044, studentList);
 		weighted[0] = 0.5;
 		weighted[1] = 0.1;
