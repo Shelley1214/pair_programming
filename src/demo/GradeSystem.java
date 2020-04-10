@@ -10,7 +10,7 @@ public class GradeSystem {
 		GradeSystem A = new GradeSystem();
 		Vector<Student> studentList = new Vector<Student>();
 		double weighted[] = {0.1,0.1,0.1,0.3,0.4};
-		A.InputData(studentList, weighted);
+		A.InputData(studentList, weighted, "/input.txt");
 		System.out.print("輸入ID或 Q (結束使用)?:\n");
 		Scanner scanner = new Scanner(System.in);
 		int position = A.Input(studentList, scanner); 		
@@ -220,9 +220,9 @@ public class GradeSystem {
 	 * 							   lab1 = 93, lab2 = 93, lab3 = 97, mid-term = 96, final exam = 94}
 	 * Time estimate: O(n), n = number of students
 	 */
-	public void InputData(Vector<Student> studentList, double weighted[]) throws IOException {
+	public void InputData(Vector<Student> studentList, double weighted[], String filename) throws IOException {
 		String cwd = System.getProperty("user.dir");
-		FileInputStream fr = new FileInputStream(cwd+"/input.txt");
+		FileInputStream fr = new FileInputStream(cwd+filename);
 		Scanner inf = new Scanner(new InputStreamReader(fr,"UTF-8"));
 		while (inf.hasNext()) {
 			int id = inf.nextInt();
