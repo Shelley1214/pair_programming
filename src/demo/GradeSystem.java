@@ -285,6 +285,7 @@ public class GradeSystem {
 			studentList.add(newPerson);
 		}
 		fr.close();
+		System.out.println("Success read file" + "\n");
 	}
 	
 	
