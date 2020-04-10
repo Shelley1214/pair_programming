@@ -24,7 +24,7 @@ class StudentTests {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		System.out.println("========== Before test ============");
+		System.out.println("========== After test ============");
 	}
 
 	@Test
@@ -34,5 +34,11 @@ class StudentTests {
 		System.out.println("========== pass ============");
 	}
 	
+	@Test
+	public void checkIdTestFail() {
+		GradeSystem TestGradeSys = new GradeSystem();
+		assertEquals(-1, TestGradeSys.checkID(0, studentList));
+		System.out.println("========== pass ============");
+	}
 
 }
