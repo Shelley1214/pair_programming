@@ -23,7 +23,7 @@ public class main {
 		A.inputCommand(scanner, studentList, weighted, position, A);
 	}
 	
-	public void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, main A) {
+	private void inputCommand(Scanner scanner, Vector<Student> studentList, double weighted[], int position, main A) {
 		while(true) {
 			System.out.print("輸入指令\n1) G顯示成績 \n2) R顯示排名 \n3) A顯示平均 \n4) W更新配分 \n5) E離開選單\n");
 			String num1 = scanner.next();
@@ -47,7 +47,7 @@ public class main {
 		}
 	}
 	
-	public void inputWeight(double weighted[], Scanner scanner) {
+	private void inputWeight(double weighted[], Scanner scanner) {
 		for(int i=0; i<5; i++) {
 			String num1 = scanner.next();
 			if(num1.contentEquals("lab1")) weighted[0] = scanner.nextDouble()/100;
@@ -61,7 +61,7 @@ public class main {
 		}
 	}
 	
-	public void printWeight(double weighted[], int isOld) {
+	private void printWeight(double weighted[], int isOld) {
 		if(isOld == 1) {
 			System.out.println("舊配分：lab1 " + weighted[0]*100 + "% " + "lab2 " + weighted[1]*100 + "% " +
 					"lab3 " + weighted[2]*100 + "% " + "mid-term " + weighted[3]*100 + "% " + 
@@ -162,10 +162,6 @@ public class main {
 			}
 		}
 		return number;
-	}
-	
-	public void testCalculateTotalGrade() {
-		
 	}
 }
 
